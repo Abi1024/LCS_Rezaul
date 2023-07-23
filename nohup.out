@@ -1,0 +1,2 @@
+./sanity.sh: line 6: 1177022 Killed                  ./build/lcs-classic 131072 1 < data/data-131072.in > out5
+./sanity.sh: line 7: 1177031 Killed                  ./build/lcs-classic 262144 1 < data/data-262144.in > out6

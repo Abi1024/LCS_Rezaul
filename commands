@@ -1,0 +1,1 @@
+sudo nohup ./a.out 512 1 < data/data-512.in &

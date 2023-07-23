@@ -1,0 +1,16 @@
+Prog: ./build/lcs-classic
+
+sequence pair 1:
+|X| = 65536
+|Y| = 65536
+
+
+data read for m = 65536 and n = 65536
+number of runs = 1
+
+LCS_classic ( dynamic mem ) user time = 24.9850 sec, system time = 3.9947 sec, total time = 28.9798
+
+LCS_classic ( dynamic mem ) avg. user time = 24.9850 sec, avg. system time = 3.9947 sec, avg. total time = 28.9798
+
+run 1: user time = 24.9850 sec, system time = 3.9947 sec, total time = 28.9798, LCS length = 21269
+

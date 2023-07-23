@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/lcs-our-alg-opt-uneq.dir/lcs-our-alg-opt-uneq.c.o  -o lcs-our-alg-opt-uneq 
