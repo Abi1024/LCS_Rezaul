@@ -57,6 +57,27 @@ char alpha[ MAX_ALPHABET_SIZE + 1 ];
 char *fname1;
 char *fname2;
 
+void print_io_data(){
+	//printf("Start of function\n");
+	int pid = getpid();
+	char* res[200];
+	sprintf(res,"/proc/%d/io",pid);
+	printf("%s\n",res);
+	FILE* fp = fopen(res,"r");
+	if (fp == NULL){
+		printf("Null\n");
+		return;
+	}
+	char c;
+	c = fgetc(fp);
+	while (c != EOF){
+		printf("%c", c);
+		c = fgetc(fp);
+	}
+	fclose(fp);
+	//printf("End of function\n");
+}
+
 void free_memory( int r )
 {
   int i;
@@ -607,9 +628,12 @@ int main( int argc, char *argv[ ] )
   printf( "number of runs = %d, base case = %d\n\n", r, BASE_N );
 
   getrusage( RUSAGE_SELF, &ru[ 0 ] );
-
+  struct timeval timecheck;
+  long start,end; 
   for ( i = 0; i < r; i++ )
      {
+      gettimeofday(&timecheck,NULL);
+      start = (long)timecheck.tv_sec * 1000 + (long)timecheck.tv_usec / 1000;
       rec_linear_LCS( i, MAX_N );
       zps[ i ] = zp;
       if ( prn )
@@ -617,6 +641,11 @@ int main( int argc, char *argv[ ] )
          find_rec_LCS( );
          verify( );
         }
+      gettimeofday(&timecheck,NULL);
+      end = (long)timecheck.tv_sec * 1000 + (long)timecheck.tv_usec / 1000;
+      printf("%ld wall milliseconds elapsed\n", (end-start));	
+      getrusage( RUSAGE_SELF, &ru[ i + 1 ] );
+      print_io_data();
       getrusage( RUSAGE_SELF, &ru[ i + 1 ] );
      }
 

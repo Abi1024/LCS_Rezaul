@@ -65,6 +65,29 @@ void print_io_data(){
 }
 
 
+void print_mem_data(){
+	//printf("Start of function\n");
+	int pid = getpid();
+	char* res[200];
+	sprintf(res,"/proc/%d/statm",pid);
+	printf("%s\n",res);
+	FILE* fp = fopen(res,"r");
+	if (fp == NULL){
+		printf("Null\n");
+		return;
+	}
+	char c;
+	c = fgetc(fp);
+	while (c != EOF){
+		printf("%c", c);
+		c = fgetc(fp);
+	}
+	fclose(fp);
+	//printf("End of function\n");
+}
+
+
+
 void free_memory( int r, int n )
 {
   int i;
@@ -281,6 +304,7 @@ int main( int argc, char *argv[ ] )
       printf("%ld wall milliseconds elapsed\n", (end-start));	
       getrusage( RUSAGE_SELF, &ru[ i + 1 ] );
       print_io_data();
+      print_mem_data();
      }
 
   //  c2 = CLOCK;
@@ -321,5 +345,5 @@ int main( int argc, char *argv[ ] )
   free_memory( r, n );
 //  while (!getchar());
 
-  return 1;
+  return 0;
 }

@@ -1,0 +1,158 @@
+++ date
++ now='Sun 23 Jul 2023 11:56:59 AM EDT'
++ echo 'Sun 23 Jul 2023 11:56:59 AM EDT'
+Sun 23 Jul 2023 11:56:59 AM EDT
++ '[' -d /sys/fs/cgroup/memory/cache-test ']'
++ cgdelete memory:cache-test
++ cgcreate -g memory:cache-test
++ echo 0
++ mem_size=("16000000000" "8000000000" "4000000000" "1000000000")
++ declare -a mem_size
++ cmake ./build
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/abiyaz/LCS_Rezaul/build
++ make --directory=./build
+make: Entering directory '/home/abiyaz/LCS_Rezaul/build'
+make[1]: Entering directory '/home/abiyaz/LCS_Rezaul/build'
+make[2]: Entering directory '/home/abiyaz/LCS_Rezaul/build'
+make[2]: Leaving directory '/home/abiyaz/LCS_Rezaul/build'
+[ 33%] Built target lcs-hirschberg-opt-uneq
+make[2]: Entering directory '/home/abiyaz/LCS_Rezaul/build'
+make[2]: Leaving directory '/home/abiyaz/LCS_Rezaul/build'
+[ 66%] Built target lcs-classic
+make[2]: Entering directory '/home/abiyaz/LCS_Rezaul/build'
+make[2]: Leaving directory '/home/abiyaz/LCS_Rezaul/build'
+[100%] Built target lcs-our-alg-opt-uneq
+make[1]: Leaving directory '/home/abiyaz/LCS_Rezaul/build'
+make: Leaving directory '/home/abiyaz/LCS_Rezaul/build'
++ (( j=0 ))
++ (( j<=4-1 ))
++ sync
++ echo 3
++ echo 16000000000
++ cgexec -g memory:cache-test ./build/lcs-classic 131072 1
+Prog: ./build/lcs-classic
+
+Allocating memory
+sequence pair 1:
+|X| = 131072
+|Y| = 131072
+
+
+data read for m = 131072 and n = 131072
+number of runs = 1
+
+361480 wall milliseconds elapsed
+/proc/1226365/io
+rchar: 280105
+wchar: 7
+syscr: 100
+syscw: 1
+read_bytes: 419950592
+write_bytes: 0
+cancelled_write_bytes: 0
+LCS_classic ( dynamic mem ) user time = 119.1604 sec, system time = 197.1881 sec, total time = 316.3485
+
+LCS_classic ( dynamic mem ) avg. user time = 119.1604 sec, avg. system time = 197.1881 sec, avg. total time = 316.3485
+
+run 1: user time = 119.1604 sec, system time = 197.1881 sec, total time = 316.3485, LCS length = 42705
+
++ (( j++  ))
++ (( j<=4-1 ))
++ sync
++ echo 3
++ echo 8000000000
++ cgexec -g memory:cache-test ./build/lcs-classic 131072 1
+Prog: ./build/lcs-classic
+
+Allocating memory
+sequence pair 1:
+|X| = 131072
+|Y| = 131072
+
+
+data read for m = 131072 and n = 131072
+number of runs = 1
+
+418739 wall milliseconds elapsed
+/proc/1226405/io
+rchar: 280105
+wchar: 7
+syscr: 100
+syscw: 1
+read_bytes: 483082240
+write_bytes: 0
+cancelled_write_bytes: 0
+LCS_classic ( dynamic mem ) user time = 121.3196 sec, system time = 246.5327 sec, total time = 367.8523
+
+LCS_classic ( dynamic mem ) avg. user time = 121.3196 sec, avg. system time = 246.5327 sec, avg. total time = 367.8523
+
+run 1: user time = 121.3196 sec, system time = 246.5327 sec, total time = 367.8523, LCS length = 42705
+
++ (( j++  ))
++ (( j<=4-1 ))
++ sync
++ echo 3
++ echo 4000000000
++ cgexec -g memory:cache-test ./build/lcs-classic 131072 1
+Prog: ./build/lcs-classic
+
+Allocating memory
+sequence pair 1:
+|X| = 131072
+|Y| = 131072
+
+
+data read for m = 131072 and n = 131072
+number of runs = 1
+
+426299 wall milliseconds elapsed
+/proc/1226456/io
+rchar: 280105
+wchar: 7
+syscr: 100
+syscw: 1
+read_bytes: 514498560
+write_bytes: 0
+cancelled_write_bytes: 0
+LCS_classic ( dynamic mem ) user time = 120.0530 sec, system time = 262.3560 sec, total time = 382.4090
+
+LCS_classic ( dynamic mem ) avg. user time = 120.0530 sec, avg. system time = 262.3560 sec, avg. total time = 382.4090
+
+run 1: user time = 120.0530 sec, system time = 262.3560 sec, total time = 382.4090, LCS length = 42705
+
++ (( j++  ))
++ (( j<=4-1 ))
++ sync
++ echo 3
++ echo 1000000000
++ cgexec -g memory:cache-test ./build/lcs-classic 131072 1
+Prog: ./build/lcs-classic
+
+Allocating memory
+sequence pair 1:
+|X| = 131072
+|Y| = 131072
+
+
+data read for m = 131072 and n = 131072
+number of runs = 1
+
+472199 wall milliseconds elapsed
+/proc/1226512/io
+rchar: 280105
+wchar: 7
+syscr: 100
+syscw: 1
+read_bytes: 538275840
+write_bytes: 0
+cancelled_write_bytes: 0
+LCS_classic ( dynamic mem ) user time = 121.9187 sec, system time = 295.6594 sec, total time = 417.5780
+
+LCS_classic ( dynamic mem ) avg. user time = 121.9187 sec, avg. system time = 295.6594 sec, avg. total time = 417.5780
+
+run 1: user time = 121.9187 sec, system time = 295.6594 sec, total time = 417.5780, LCS length = 42705
+
++ (( j++  ))
++ (( j<=4-1 ))
