@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
-const unsigned long long num = 2000000;
+const unsigned long long num = 20000000;
 
 void print_mem_data(){
 	//printf("Start of function\n");
@@ -72,15 +72,15 @@ int main (int argc, char *argv[])
    std::cout << "Num: " << num << std::endl;
    std::cout << "Length: " << length << std::endl;
    std::cout << "Total size: " << length*num << std::endl;
-  /* if ((dst = (char*)mmap (0,  length*num+num, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == (char*)MAP_FAILED){
+   if ((dst = (char*)mmap (0,  length*num+num, PROT_READ | PROT_WRITE,  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == (char*)MAP_FAILED){
       printf ("mmap error for output with code");
       return 0;
-  }*/
+  }
   
-  if ((dst = (char*)mmap (0,  length*num+num, PROT_READ | PROT_WRITE, MAP_SHARED , fdout, 0)) == (char*)MAP_FAILED){
+  /*if ((dst = (char*)mmap (0,  length*num+num, PROT_READ | PROT_WRITE, MAP_SHARED , fdout, 0)) == (char*)MAP_FAILED){
        printf ("mmap error for output with code");
        return 0;
-}
+}*/
   print_mem_data();
   for (unsigned long long i = 0; i < num ; i++){
     //std::cout << "i: " << i << std::endl;
@@ -89,7 +89,10 @@ int main (int argc, char *argv[])
       print_mem_data();
     }
     memcpy(dst+i*length,test.c_str(),length);
-  }
+    for (int j = 0; j < length; j++){
+	int y = *(dst+i*length+j);
+	}  
+}
   return 0;
 }
 /* main */

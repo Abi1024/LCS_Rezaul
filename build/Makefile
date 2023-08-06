@@ -149,32 +149,32 @@ lcs-our-alg-opt-uneq/fast:
 	$(MAKE) -f CMakeFiles/lcs-our-alg-opt-uneq.dir/build.make CMakeFiles/lcs-our-alg-opt-uneq.dir/build
 .PHONY : lcs-our-alg-opt-uneq/fast
 
-lcs-classic.o: lcs-classic.c.o
+lcs-classic.o: lcs-classic.cpp.o
 
 .PHONY : lcs-classic.o
 
 # target to build an object file
-lcs-classic.c.o:
-	$(MAKE) -f CMakeFiles/lcs-classic.dir/build.make CMakeFiles/lcs-classic.dir/lcs-classic.c.o
-.PHONY : lcs-classic.c.o
+lcs-classic.cpp.o:
+	$(MAKE) -f CMakeFiles/lcs-classic.dir/build.make CMakeFiles/lcs-classic.dir/lcs-classic.cpp.o
+.PHONY : lcs-classic.cpp.o
 
-lcs-classic.i: lcs-classic.c.i
+lcs-classic.i: lcs-classic.cpp.i
 
 .PHONY : lcs-classic.i
 
 # target to preprocess a source file
-lcs-classic.c.i:
-	$(MAKE) -f CMakeFiles/lcs-classic.dir/build.make CMakeFiles/lcs-classic.dir/lcs-classic.c.i
-.PHONY : lcs-classic.c.i
+lcs-classic.cpp.i:
+	$(MAKE) -f CMakeFiles/lcs-classic.dir/build.make CMakeFiles/lcs-classic.dir/lcs-classic.cpp.i
+.PHONY : lcs-classic.cpp.i
 
-lcs-classic.s: lcs-classic.c.s
+lcs-classic.s: lcs-classic.cpp.s
 
 .PHONY : lcs-classic.s
 
 # target to generate assembly for a file
-lcs-classic.c.s:
-	$(MAKE) -f CMakeFiles/lcs-classic.dir/build.make CMakeFiles/lcs-classic.dir/lcs-classic.c.s
-.PHONY : lcs-classic.c.s
+lcs-classic.cpp.s:
+	$(MAKE) -f CMakeFiles/lcs-classic.dir/build.make CMakeFiles/lcs-classic.dir/lcs-classic.cpp.s
+.PHONY : lcs-classic.cpp.s
 
 lcs-hirschberg-opt-uneq.o: lcs-hirschberg-opt-uneq.c.o
 

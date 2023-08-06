@@ -8,7 +8,7 @@ cgdelete memory:cache-test
 fi
 cgcreate -g memory:cache-test
 echo 1 > /sys/fs/cgroup/memory/cache-test/memory.oom_control
-declare -a mem_size=("16G" "18G" "20G" "22G" "24G" "26G" "28G" "30G")
+declare -a mem_size=("1G" "2G" "4G" "6G" "8G" "10G" "12G" "14G" "16G" "18G" "20G" "22G" "24G" "26G" "28G" "30G")
 
 cmake ./build && make --directory=./build 
 
@@ -23,7 +23,7 @@ do
 sync
 echo 3 > /proc/sys/vm/drop_caches
 echo ${mem_size[$j]} > /sys/fs/cgroup/memory/cache-test/memory.limit_in_bytes 
-cgexec -g memory:cache-test ./build/lcs-classic 131072 1 < data/data-131072.in
+cgexec -g memory:cache-test ./build/lcs-classic 65536 1 < data/data-65536.in
 
 #gcc lcs-classic.c
 #cgexec -g memory:cache-test-arghya ./a.out ${ip_size[$j]} $numruns < data/data-${ip_size[$j]}.in 

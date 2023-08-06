@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
-const unsigned long long num = 2000000;
+const unsigned long long num = 20000000;
 
 void print_mem_data(){
 	//printf("Start of function\n");
@@ -88,7 +88,12 @@ int main (int argc, char *argv[])
       std::cout << "i: " << i << std::endl;
       print_mem_data();
     }
+    //printf("Writing\n");
     memcpy(dst+i*length,test.c_str(),length);
+    //printf("Reading\n"); 
+	for (int j = 0; j < length; j++){
+	char k = *(dst + i*length+j);
+	}
   }
   return 0;
 }

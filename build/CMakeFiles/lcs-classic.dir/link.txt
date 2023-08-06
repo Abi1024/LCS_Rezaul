@@ -1,1 +1,1 @@
-/usr/bin/cc   -rdynamic CMakeFiles/lcs-classic.dir/lcs-classic.c.o  -o lcs-classic  -lm 
+/usr/bin/c++   -W -Wall  -rdynamic CMakeFiles/lcs-classic.dir/lcs-classic.cpp.o  -o lcs-classic  -lm 

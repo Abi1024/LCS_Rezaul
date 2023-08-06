@@ -2,7 +2,7 @@
 Iterative LCS.
 Last Update: June 28, 2005 ( Rezaul Alam Chowdhury, UT Austin )
 */
-#include <iostream>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,15 +10,20 @@ Last Update: June 28, 2005 ( Rezaul Alam Chowdhury, UT Austin )
 #include <time.h>
 #include <sys/resource.h>
 #include <sys/time.h>
-using namespace std;
-
+#include <unistd.h>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <chrono>
+#include <thread>
 #define MAX_ALPHABET_SIZE 256
 
 #define SYMBOL_TYPE char
 
 #define max( a, b ) ( ( a ) > ( b ) ) ? ( a ) : ( b )
 #define min( a, b ) ( ( a ) < ( b ) ) ? ( a ) : ( b )
-
+using namespace std;
 //#define CLOCK ( ( double ) clock( ) )
 
 SYMBOL_TYPE *X;
@@ -43,6 +48,75 @@ int *zps;
 char alpha[ MAX_ALPHABET_SIZE + 1 ];
 
 //double tmp_t, copy_t, base_t, tri_base_t;
+
+vector<long long> io_counter_sda(11);
+vector<long long> io_counter_sda_new(11);
+vector<long long> io_counter_sdc(11);
+vector<long long> io_counter_sdc_new(11);
+
+void print_io_data(){
+	//printf("Printing I/O data\n");
+	int pid = getpid();
+	ifstream in;
+	in.open("/proc/diskstats");
+	string word;
+	int count = -1;
+	int type = 0;
+	while (in >> word){
+		if (count >= 0 && count < 11){
+			if (type == 0){
+				io_counter_sda_new[count] = stol(word);
+			}else{
+				io_counter_sdc_new[count] = stol(word);
+			}
+			count++;
+		}
+		if (word == "sda5"){
+			type = 0;
+			count = 0;			
+		}else if (word == "sdc"){
+			type = 1;
+			count = 0;
+		}
+	}
+	cout << "Activity report for sda5: ";
+	for (int i = 0; i < 8; i++){
+		cout << io_counter_sda_new[i]-io_counter_sda[i] << ", ";
+	}
+	cout << endl;
+	cout << "Activity report for sdc: ";
+	for (int i = 0; i < 8; i++){
+		cout << io_counter_sdc_new[i]-io_counter_sdc[i] << ", ";
+	}
+	cout << endl;
+	io_counter_sda = io_counter_sda_new;
+	io_counter_sdc = io_counter_sdc_new;
+	in.close();
+	//printf("End of function\n");
+}
+
+
+void print_mem_data(){
+	//printf("Start of function\n");
+	int pid = getpid();
+	char res[200];
+	sprintf(res,"/proc/%d/statm",pid);
+	printf("%s\n",res);
+	FILE* fp = fopen(res,"r");
+	if (fp == NULL){
+		printf("Null\n");
+		return;
+	}
+	char c;
+	c = fgetc(fp);
+	while (c != EOF){
+		printf("%c", c);
+		c = fgetc(fp);
+	}
+	fclose(fp);
+	//printf("End of function\n");
+}
+
 
 
 void free_memory( int r, int n )
@@ -86,11 +160,10 @@ void free_memory( int r, int n )
 
 int allocate_memory( int m, int n, int r )
 {
-  cout << "here up" << endl;
   int i, d, mm;
 
   mm = min( m, n );
-
+  //printf("value of mm: %d\n", mm);
   Z = ( SYMBOL_TYPE * ) malloc( ( mm + 2 ) * sizeof( SYMBOL_TYPE ) );
 
   XS = ( char ** ) malloc( ( r ) * sizeof( char * ) );
@@ -129,7 +202,7 @@ int allocate_memory( int m, int n, int r )
   for ( i = 0; i <= n; i++ )
    {
     len[ i ] = ( int * ) malloc( ( m + 1 ) * sizeof( int ) );
-
+    //printf("len[i] address %p\n",len[i]);
     if ( len[ i ] == NULL )
      {
       printf( "\nError: memory allocation failed!\n\n" );
@@ -144,10 +217,9 @@ int allocate_memory( int m, int n, int r )
 
 int read_data( int r )
 {
-  cout << "here on" << endl;
-  cout << "Testing" << endl;
   int i, d;
 
+  scanf( "alphabet: %s\n\n", alpha );
 
   for ( i = 0; i < r; i++ )
    {
@@ -160,7 +232,7 @@ int read_data( int r )
     nys[ i ] = strlen( YS[ i ] + 1 );
     printf( "|Y| = %d\n\n", nys[ i ] );
    }
-  cout << "read the data successfully" << endl;
+
   return 1;
 }
 
@@ -168,7 +240,6 @@ int read_data( int r )
 
 int LCS_classic( int r )
 {
-  cout << "here" << endl;
   int i, j, m, n;
 
   m = nxs[ r ];
@@ -179,10 +250,10 @@ int LCS_classic( int r )
 
   for ( i = 0; i <= m; i++ )
      len[ 0 ][ i ] = 0;
-  cout << "len1" << endl;
+
   for ( j = 0; j <= n; j++ )
      len[ j ][ 0 ] = 0;
-  cout << "len2" << endl;
+
   for ( j = 1; j <= n; j++ )
     for ( i = 1; i <= m; i++ )
       {
@@ -202,7 +273,7 @@ int LCS_classic( int r )
 	      }
           }
       }
-  cout << "LCS_classic completed" << endl;
+
   return len[ n ][ m ];
 }
 
@@ -226,16 +297,16 @@ int main( int argc, char *argv[ ] )
   n = atoi( argv[ 1 ] );
   r = atoi( argv[ 2 ] );
   m = n;
-
+  
   if ( n <= 0 )
-     cout << n << endl;
+     printf("%d\n", n);
 
   if ( m < n )
-   {
+    {
      printf( "\nError: m < n!\n" );
      return 0;
     }
-
+  printf("Allocating memory\n");
   if ( !allocate_memory( m, n, r )) return 0;
 
   if ( !read_data( r ) )
@@ -252,12 +323,25 @@ int main( int argc, char *argv[ ] )
   //  copy_t = base_t = tri_base_t = 0;
   //  c1 = CLOCK;
   getrusage( RUSAGE_SELF, &ru[ 0 ] );
-
+  struct timeval timecheck;
+  long start,end;
   for ( i = 0; i < r; i++ )
      {
+      gettimeofday(&timecheck,NULL);
+      start = (long)timecheck.tv_sec * 1000 + (long)timecheck.tv_usec / 1000;
+      print_io_data();
       zps[ i ] = LCS_classic( i );
+      gettimeofday(&timecheck,NULL);
+      end = (long)timecheck.tv_sec * 1000 + (long)timecheck.tv_usec / 1000;
+      printf("%ld wall milliseconds elapsed\n", (end-start));	
       getrusage( RUSAGE_SELF, &ru[ i + 1 ] );
-     }
+      print_io_data();
+      print_mem_data();
+      this_thread::sleep_for(30000ms);
+      print_io_data();  
+      this_thread::sleep_for(30000ms);
+      print_io_data();	
+   }
 
   //  c2 = CLOCK;
   //  tck = c2 - c1;
@@ -297,5 +381,5 @@ int main( int argc, char *argv[ ] )
   free_memory( r, n );
 //  while (!getchar());
 
-  return 1;
+  return 0;
 }
